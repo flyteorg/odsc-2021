@@ -1,0 +1,48 @@
+## Part 1: ML/Data Orchestrators, Flyte Overview
+
+This part will introduce you to ML/data orchestration and take you through a deeper dive into Flyte. We will start with what an ML/data pipeline orchestration tool is and the desired use cases. We will follow this discussion with the considerations, trade-offs, and motivation that led to the design of Flyte, an introduction to Flyte, its features, and components. Later, we will talk about how Flyte is different from other orchestration tools and showcase how Flyte scales at various organizations. We will end this part by giving you a glimpse into the Flyte open source community and the roadmap.
+
+- ML pipeline, from procuring data to serving the model
+  - _Explain what an ML pipeline encompasses_
+  - _Quote an ML pipeline example (Lyft)?_
+- ML and Data pipeline orchestration tools: need of the hour!
+  - What is a pipeline orchestration tool?
+  - Where does it fit in the ML pipeline?
+  - A bird’s eye view of what it can help us achieve
+- Desired use cases
+  - Serverless experience
+  - Consistent APIs for jobs and pipelines
+  - Parameterize executions
+  - Dynamic workflows
+  - Development and iteration
+  - Ops and visibility
+  - Reusability and shareability
+  - Extensibility and flexibility
+  - _What are the desirable use cases of a pipeline orchestrator?_
+- About Flyte
+  - What is Flyte?
+  - Features
+    - Kubernetes-native
+    - Ergonomic SDKs in Python, Java & Scala (Flytekit)
+    - Multi-tenancy
+    - Data lineage and memoization
+    - Dynamism
+    - Reproducibility
+    - Strongly typed system
+    - Versioned and auditable
+  - Components
+    - FlyteAdmin
+    - FlytePropeller
+    - Flyte Console
+    - FlyteCTL
+    - Overall architecture
+  - Flyte user journey
+  - Flyte vs. others
+  - _A theoretical dive into Flyte._
+- Case studies: witness Flyte’s scalability
+  - Lyft
+  - Spotify
+  - Freenome
+  - _Showcase some impactful example use cases which have been implemented at every org._
+- Flyte open-source community
+- Roadmap
