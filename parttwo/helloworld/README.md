@@ -1,7 +1,8 @@
-**Code Example**
-Refer to the code in hello_world.py file.
+### Code Example
 
-**Test locally**
+Refer to the code in [hello_world.py](./hello_world.py) file.
+
+### Test locally
 1. `git clone https://github.com/flyteorg/odsc-2021.git`
 2. `cd odsc-2021/`
 3. Activate virtual environment
@@ -10,26 +11,26 @@ Refer to the code in hello_world.py file.
 4. `pip install flytekit --upgrade`
 5. `python parttwo/helloworld/hello_world.py`
 
-**Create a sandbox**
+### Create a sandbox
 1. `brew install flyteorg/homebrew-tap/flytectl`
 2. `flytectl upgrade`
 3. `flytectl version`
 4. `flytectl sandbox start --source $(pwd)`
 5. `flytectl config init`
 
-**Build Docker container**
+### Build Docker container
 
 `flytectl sandbox exec -- docker build . --tag "myapp:v1" -f parttwo/Dockerfile`
 
-**Package the code**
+### Package the code
 
 `pyflyte --pkgs parttwo.helloworld package --image myapp:v1 --force`
 
-**Register the example**
+### Register the example
 
 `flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1`
 
-**FlyteCTL/UI execution**
+### FlyteCTL/UI execution
 
 Visit `localhost:30081/console` to trigger the workflow.
 
@@ -49,7 +50,7 @@ Alternatively, you can execute using the command line through FlyteCTL.
 
 ## Fast Registration
 
-**Code modifications**
+## Code modifications
 1. Open hello_world.py: `parttwo/helloworld/hello_world.py`
 2. Add `name: str` as an argument to both `my_wf` and `say_hello` functions. Then update the body of `say_hello` to consume that argument.
     ```
@@ -70,15 +71,15 @@ Alternatively, you can execute using the command line through FlyteCTL.
     ```
 4. Test locally by running `python parttwo/helloworld/hello_world.py`.
 
-**Fast serialize**
+## Fast serialize
 
 `pyflyte --pkgs parttwo.helloworld package --image myapp:v1 --fast --force`
 
-**Fast register**
+## Fast register
 
 `flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz  --version v1-fast1`
 
-5. **FlyteCTL/UI execution**
+## FlyteCTL/UI execution
 
 Visit `localhost:30081/console` to trigger the workflow.
 
