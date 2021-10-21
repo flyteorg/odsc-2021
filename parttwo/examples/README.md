@@ -12,7 +12,7 @@ Refer to the code in [caching.py](./caching.py) file.
     pyflyte --pkgs parttwo.examples package --image parttwo:v1 --force --fast
     flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1-fast2
     ```
-1. Visit `http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.caching.caching_wf` and trigger the execution
+1. Visit http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.caching.caching_wf and trigger the execution
 2. Trigger the workflow again to fetch the cached result
 3. Modify the task signature:
     ```python
@@ -40,7 +40,7 @@ Refer to the code in [caching.py](./caching.py) file.
     ```
     flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz --version v1-fast3
     ```
-6. Visit `http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.caching.caching_wf` to trigger the execution
+6. Visit http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.caching.caching_wf to trigger the execution
 
 # Dynamic Workflow
 
@@ -51,7 +51,7 @@ Refer to the code in [dynamic_workflow.py](./dynamic_workflow.py) file.
 `python parttwo/examples/dynamic_workflow.py`
 
 ## Sandbox execution
-Visit `http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.dynamic_workflow.wf` and trigger the execution
+Visit http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.dynamic_workflow.wf and trigger the execution
 
 # Conditional Branching
 
@@ -62,7 +62,7 @@ Refer to the code in [condition.py](./condition.py) file.
 `python parttwo/examples/condition.py`
 
 ## Sandbox execution
-Visit `http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.condition.multiplier` and trigger the execution
+Visit http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.condition.multiplier and trigger the execution
 
 # FlyteFile, FlyteDirectory, and FlyteSchema
 
@@ -76,5 +76,5 @@ Refer to the code examples in [flytefile.py](./flytefile.py), [flytedirectory.py
 3. FlyteSchema: `python parttwo/examples/flyteschema.py`
 
 ## Sandbox execution
-1. Trigger the executions: `http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flytefile.rotate_one_workflow`, `http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flytedirectory.download_and_rotate`, and `http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flyteschema.wf`
+1. Trigger the executions: http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flytefile.rotate_one_workflow, http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flytedirectory.download_and_rotate, and http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flyteschema.wf
 2. Some of the tasks' inputs and outputs will have S3 URLs indicating the upload and download of data

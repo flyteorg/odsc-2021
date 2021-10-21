@@ -32,7 +32,7 @@ Refer to the code in [hello_world.py](./hello_world.py) file.
 
 ### FlyteCTL/UI execution
 
-Visit `http://localhost:30081/console/projects/flytesnacks/workflows` to trigger the execution.
+Visit http://localhost:30081/console/projects/flytesnacks/workflows to trigger the execution.
 
 Alternatively, you can execute using the command line through FlyteCTL.
 
@@ -81,7 +81,7 @@ Alternatively, you can execute using the command line through FlyteCTL.
 
 ### FlyteCTL/UI execution
 
-Visit `http://localhost:30081/console/projects/flytesnacks/workflows` to trigger the execution.
+Visit http://localhost:30081/console/projects/flytesnacks/workflows to trigger the execution.
 
 Alternatively, you can execute using the command line through FlyteCTL.
 
