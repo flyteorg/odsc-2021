@@ -2,13 +2,13 @@
 
 Refer to the code in [hello_world.py](./hello_world.py) file.
 
-### Test locally
+### Run locally
 1. `git clone https://github.com/flyteorg/odsc-2021.git`
 2. `cd odsc-2021/`
 3. Activate virtual environment
     * `python -m venv odsc`
     * `source venv/bin/activate`
-4. `pip install flytekit --upgrade`
+4. `pip install -r parttwo/requirements.txt`
 5. `python parttwo/helloworld/hello_world.py`
 
 ### Create a sandbox
@@ -20,11 +20,11 @@ Refer to the code in [hello_world.py](./hello_world.py) file.
 
 ### Build Docker container
 
-`flytectl sandbox exec -- docker build . --tag "myapp:v1" -f parttwo/Dockerfile`
+`flytectl sandbox exec -- docker build . --tag "parttwo:v1" -f parttwo/Dockerfile`
 
 ### Package the code
 
-`pyflyte --pkgs parttwo.helloworld package --image myapp:v1 --force`
+`pyflyte --pkgs parttwo.helloworld package --image parttwo:v1 --force`
 
 ### Register the example
 
@@ -32,7 +32,7 @@ Refer to the code in [hello_world.py](./hello_world.py) file.
 
 ### FlyteCTL/UI execution
 
-Visit `localhost:30081/console` to trigger the workflow.
+Visit `http://localhost:30081/console/projects/flytesnacks/workflows` to trigger the execution.
 
 Alternatively, you can execute using the command line through FlyteCTL.
 
@@ -50,10 +50,10 @@ Alternatively, you can execute using the command line through FlyteCTL.
 
 ## Fast Registration
 
-## Code modifications
+### Code modifications
 1. Open hello_world.py: `parttwo/helloworld/hello_world.py`
 2. Add `name: str` as an argument to both `my_wf` and `say_hello` functions. Then update the body of `say_hello` to consume that argument.
-    ```
+    ```python
     @task
     def say_hello(name: str) -> str:
         return f"hello world, {name}"
@@ -71,17 +71,17 @@ Alternatively, you can execute using the command line through FlyteCTL.
     ```
 4. Test locally by running `python parttwo/helloworld/hello_world.py`.
 
-## Fast serialize
+### Fast serialize
 
-`pyflyte --pkgs parttwo.helloworld package --image myapp:v1 --fast --force`
+`pyflyte --pkgs parttwo.helloworld package --image parttwo:v1 --fast --force`
 
-## Fast register
+### Fast register
 
 `flytectl register files --project flytesnacks --domain development --archive flyte-package.tgz  --version v1-fast1`
 
-## FlyteCTL/UI execution
+### FlyteCTL/UI execution
 
-Visit `localhost:30081/console` to trigger the workflow.
+Visit `http://localhost:30081/console/projects/flytesnacks/workflows` to trigger the execution.
 
 Alternatively, you can execute using the command line through FlyteCTL.
 

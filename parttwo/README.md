@@ -1,4 +1,4 @@
-## Part 2: Hands-on Approach to Building Applications With Flyte
+# Part 2: Hands-on Approach to Building Applications With Flyte
 
 This part will give you a hands-on approach to building applications with Flyte. We will get the ball rolling with an introduction to Flyte concepts and a simple “Hello World” application, where we will commute through the ideation, scaling, and iteration phases. We will showcase examples demonstrating some cool Flyte features, followed by a UI walkthrough. We will end this part by talking about the deployment checklist.
 
@@ -17,12 +17,14 @@ This part will give you a hands-on approach to building applications with Flyte.
   - Package the code
   - Register the example
   - FlyteCTL/UI execution
-- Slow and fast registration
-  - Usage of _register_ and _fast register_
-- Example: Caching
-- Example: Dynamic workflow
-- Example: Conditional branching
-- Example: FlyteFile, FlyteSchema, FlyteDirectory
+- Slow and [fast registration](./helloworld/README.md#fast-registration)
+  - How _register_ and _fast register_ work
+- Example: [Caching](./examples/caching.py)
+- Example: [Dynamic workflow](./examples/dynamic_workflow.py)
+- Example: [Conditional branching](./examples/condition.py)
+- Example: [FlyteFile](./examples/flytefile.py)
+- Example: [FlyteDirectory](./examples/flytedirectory.py)
+- Example: [FlyteSchema](./examples/flytedirectory.py)
 - Example: FlyteRemote
 - Example: Task resources
 - Example: Notifications
