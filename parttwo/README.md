@@ -26,8 +26,7 @@ This part will give you a hands-on approach to building applications with Flyte.
 - Example: [FlyteDirectory](./examples/flytedirectory.py)
 - Example: [FlyteSchema](./examples/flytedirectory.py)
 - Example: FlyteRemote
-- Example: Task resources
-- Example: Notifications
+- Example: [Task resources](./examples/task_resources.py)
 - UI Walkthrough
   - Graphs
   - Logs

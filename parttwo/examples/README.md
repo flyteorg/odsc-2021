@@ -78,3 +78,14 @@ Refer to the code examples in [flytefile.py](./flytefile.py), [flytedirectory.py
 ## Sandbox execution
 1. Trigger the executions: http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flytefile.rotate_one_workflow, http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flytedirectory.download_and_rotate, and http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.flyteschema.wf
 2. Some of the tasks' inputs and outputs will have S3 URLs indicating the upload and download of data
+
+# Task resources
+
+## Code example
+Refer to the code in [task_resources.py](./task_resources.py) file.
+
+## Local execution
+`python parttwo/examples/task_resources.py`
+
+## Sandbox execution
+Visit http://localhost:30081/console/projects/flytesnacks/domains/development/workflows/parttwo.examples.condition.multiplier and trigger the execution
