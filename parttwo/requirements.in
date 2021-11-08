@@ -1,6 +1,0 @@
-flytekit>=0.20.2
-wheel
-scikit-learn
-joblib
-opencv-python
-bing-image-downloader
