@@ -18,7 +18,7 @@ This repo contains code examples and setup instructions.
 ## Navigate
 
 * Part I: [Deep dive into writing your first pipeline and scaling it on Flyte](example/)
-* Part II: [Write your first plugin for flytekit](extend/)
+* Part II: [Write your first plugin for Flytekit](extend/)
 
 ## Useful Resources
 * [Troubleshooting Guide](https://docs.flyte.org/en/latest/community/troubleshoot.html)
