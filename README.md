@@ -15,6 +15,11 @@ This repo contains code examples and setup instructions.
 * Install [Docker](https://docs.docker.com/get-docker/) (make sure Docker and Docker daemon are running)
 * Install [FlyteCTL](https://docs.flyte.org/projects/flytectl/en/stable/#install): the official Flyte command-line interface
 
+## Navigate
+
+* Part I: [Deep dive into writing your first pipeline and scaling it on Flyte](example/)
+* Part II: [Write your first plugin for flytekit](extend/)
+
 ## Useful Resources
 * [Troubleshooting Guide](https://docs.flyte.org/en/latest/community/troubleshoot.html)
 * [Flyte Documentation](https://docs.flyte.org/en/latest/)
