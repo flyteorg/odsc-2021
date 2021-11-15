@@ -46,6 +46,8 @@ class HyperParameters(object):
         booster: Specifies the booster type to use.
         tree_method: Specifies the tree construction algorithm.
         min_child_weight: Minimum sum of instance weight(hessian) needed in a child.
+
+    NOTE: There are a lot more hyperparameters available. We are using only a couple of them for demo purposes.
     """
 
     verbosity: int = 2
