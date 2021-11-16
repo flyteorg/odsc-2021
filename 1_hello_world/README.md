@@ -3,6 +3,24 @@
 Based on [getting started docs](https://docs.flyte.org/en/latest/getting_started.html).
 
 ## Cheat sheet
+#. Install Flytectl:
+
+   ```bash
+   brew install flyteorg/homebrew-tap/flytectl
+   ```
+
+   OR 
+
+   ```bash
+   curl -sL https://ctl.flyte.org/install | sudo bash -s -- -b /usr/local/bin
+   ```
+
+#. Install requirements
+
+   ```bash
+   pip install -r 1_hello_world/requirements.txt
+   ```
+
 #. Run Locally:
 
    ```bash
