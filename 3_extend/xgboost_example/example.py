@@ -1,16 +1,14 @@
 from typing import Dict, List, NamedTuple
 
 import xgboost
+from flytekit import task, workflow
+from flytekit.types.file import FlyteFile, JoblibSerializedFile
 from flytekitplugins.xgboost import (
     HyperParameters,
     ModelParameters,
     XGBoostParameters,
     XGBoostTrainerTask,
 )
-
-from flytekit import kwtypes, task, workflow
-from flytekit.types.file import FlyteFile, JoblibSerializedFile
-
 
 xgboost_trainer = XGBoostTrainerTask(
     name="xgboost_trainer",
@@ -19,12 +17,8 @@ xgboost_trainer = XGBoostTrainerTask(
             max_depth=2, eta=1, objective="binary:logistic", verbosity=2
         ),
     ),
-    inputs=kwtypes(
-        train=FlyteFile,
-        test=FlyteFile,
-        validation=FlyteFile,
-        model_parameters=ModelParameters,
-    ),
+    dataset_type=FlyteFile,
+    validate=True,
 )
 
 
@@ -51,16 +45,17 @@ wf_output = NamedTuple(
 
 
 @workflow
-def full_pipeline(
+def xgboost_sample(
     train: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.train",
     test: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.test",
     validation: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.test",
+    params: XGBoostParameters = XGBoostParameters(),
 ) -> wf_output:
     model, predictions, evaluation_result = xgboost_trainer(
         train=train,
         test=test,
         validation=validation,
-        model_parameters=ModelParameters(num_boost_round=2),
+        params=params,
     )
     return (
         model,
@@ -74,6 +69,7 @@ def full_pipeline(
 
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
+    model, accuracy, eval_result = xgboost_sample()
     print(
-        f"Running full_pipeline(), accuracy of the XGBoost model is {full_pipeline().accuracy:.2f}%"
+        f"Running xgboost_sample(), accuracy of the XGBoost model is {accuracy:.2f}%"
     )

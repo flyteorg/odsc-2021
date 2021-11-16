@@ -8,6 +8,10 @@
 * `pip install pytest`
 * `pytest test_task.py -rA`
 
+**NOTE: If using OSX, XGBoost depends on some c packages to be installed**
+
+`brew install cmake libomp`
+
 ### [XGBoost Example](./xgboost_example)
 
 * `cd extend`
