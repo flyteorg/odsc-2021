@@ -2,7 +2,7 @@
 
 ### [XGBoost Plugin](./flytekit-xgboost)
 
-* `cd extend/flytekit-xgboost`
+* `cd 3_extend/flytekit-xgboost`
 * `pip install -e .` (development mode)
 * `cd tests`
 * `pip install pytest`
@@ -14,7 +14,7 @@
 
 ### [XGBoost Example](./xgboost_example)
 
-* `cd extend`
+* `cd 3_extend`
 * `flytectl sandbox start --source=$(pwd)` (create flyte-sandbox environment)
 * `flytectl sandbox exec -- docker build . --tag "xgboost:v1" -f xgboost_example/Dockerfile` (build Docker container)
 * `pyflyte --pkgs xgboost_example package --image xgboost:v1 --force` (package code)
