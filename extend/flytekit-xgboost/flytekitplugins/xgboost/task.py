@@ -170,6 +170,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
     def train(self, dtrain: xgboost.DMatrix, dvalid: xgboost.DMatrix, params: XGBoostParameters) -> Tuple[str, Dict[str, Dict[str, List[float]]]]:
         evals_result = {}
         # if validation data is provided, then populate evals and evals_result
+        validation = None
         if dvalid:
             validation = [(dvalid, "validation")]
 
