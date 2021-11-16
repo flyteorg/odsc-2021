@@ -49,7 +49,7 @@ def xgboost_sample(
     train: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.train",
     test: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.test",
     validation: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.test",
-    params: XGBoostParameters = XGBoostParameters(model_parameters=ModelParameters(num_boost_round=2)),
+    params: XGBoostParameters = XGBoostParameters(),
 ) -> wf_output:
     model, predictions, evaluation_result = xgboost_trainer(
         train=train,

@@ -1,11 +1,10 @@
 import typing
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Type, Union, get_type_hints
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import flytekit
 import joblib
-import pandas as pd
 import xgboost
 from dataclasses_json import dataclass_json
 from flytekit import PythonInstanceTask
@@ -27,7 +26,7 @@ class ModelParameters(object):
         verbose_eval: If verbose_eval is True then the evaluation metric on the validation set is printed at each boosting stage.
     """
 
-    num_boost_round: int = 10
+    num_boost_round: int = 4
     early_stopping_rounds: Optional[int] = None
     verbose_eval: Optional[Union[bool, int]] = True
 
@@ -168,20 +167,16 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         )
 
     # Train method
-    def train(self, dtrain: xgboost.DMatrix, dvalid: xgboost.DMatrix) -> Tuple[str, Dict[str, Dict[str, List[float]]]]:
+    def train(self, dtrain: xgboost.DMatrix, dvalid: xgboost.DMatrix, params: XGBoostParameters) -> Tuple[str, Dict[str, Dict[str, List[float]]]]:
         evals_result = {}
         # if validation data is provided, then populate evals and evals_result
         if dvalid:
             validation = [(dvalid, "validation")]
 
         booster_model = xgboost.train(
-            params=asdict(self._config.hyper_parameters),
+            params=asdict(params.hyper_parameters if params.hyper_parameters else HyperParameters()),
             dtrain=dtrain,
-            **asdict(
-                self._config.model_parameters
-                if self._config.model_parameters
-                else ModelParameters()
-            ),
+            **asdict(params.model_parameters if params.model_parameters else ModelParameters()),
             evals=validation,
             evals_result=evals_result,
         )
@@ -225,7 +220,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         else:
             raise ValueError(f"Invalid type for {each_key} input")
 
-        model, evals_result = self.train(dtrain=dtrain, dvalid=dvalid)
+        model, evals_result = self.train(dtrain=dtrain, dvalid=dvalid, params=params)
         predictions = self.test(booster_model=model, dtest=dtest)
 
         return JoblibSerializedFile(model), predictions, evals_result
