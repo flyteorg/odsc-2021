@@ -171,83 +171,30 @@ def generate_and_split_data(number_of_houses: int, seed: int) -> dataset:
 # ================================
 #
 # Serialize the XGBoost model using joblib and store the model in a dat file.
-@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
+# TODO: Add task annotation so flyte knows this is a independent execution unit.
 def fit(loc: str, train: pd.DataFrame, val: pd.DataFrame) -> JoblibSerializedFile:
+    # TODO: Select the input and output data from train dataset into x and y
 
-    # Fetch the input and output data from train dataset
-    x = train[train.columns[1:]]
-    y = train[train.columns[0]]
-
-    # Fetch the input and output data from validation dataset
-    eval_x = val[val.columns[1:]]
-    eval_y = val[val.columns[0]]
+    # TODO: Select the input and output data from validation dataset into eval_x and eval_y
 
     m = XGBRegressor()
-    m.fit(x, y, eval_set=[(eval_x, eval_y)])
+    # TODO: Run fit with train and validation columns
 
-    working_dir = flytekit.current_context().working_directory
-    fname = os.path.join(working_dir, f"model-{loc}.joblib.dat")
-    joblib.dump(m, fname)
-    return fname
-
-
-# %%
-# Task: Generating the Predictions
-# ================================
-#
-# Unserialize the XGBoost model using joblib and generate the predictions.
-@task(cache_version="1.0", cache=True, limits=Resources(mem="600Mi"))
-def predict(
-    test: pd.DataFrame,
-    model_ser: JoblibSerializedFile,
-) -> typing.List[float]:
-
-    # Load model
-    model = joblib.load(model_ser)
-
-    # Load test data
-    x_df = test[test.columns[1:]]
-
-    # Generate predictions
-    y_pred = model.predict(x_df).tolist()
-
-    return y_pred
-
-
-# %%
-# Defining the Workflow
-# =====================
-#
-# Include the following three steps in the workflow:
-#
-# #. Generate and split the data (Step 4)
-# #. Fit the XGBoost model (Step 5)
-# #. Generate predictions (Step 6)
-@workflow
-def house_price_predictor_trainer(
-    seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
-) -> typing.List[float]:
-
-    # Generate and split the data
-    split_data_vals = generate_and_split_data(
-        number_of_houses=number_of_houses, seed=seed
-    )
-
-    # Fit the XGBoost model
-    model = fit(
-        loc="NewYork_NY", train=split_data_vals.train_data, val=split_data_vals.val_data
-    )
-
-    # Generate predictions
-    predictions = predict(model_ser=model, test=split_data_vals.test_data)
-
-    return predictions
+    # TODO: save the file in joblib format and return
+    ...
 
 
 # %%
 # Trigger the workflow locally by calling the workflow function.
 if __name__ == "__main__":
-    print(house_price_predictor_trainer())
+    split_data_vals = generate_and_split_data(number_of_houses=10, seed=10)
+    print(
+        fit(
+            loc="NewYork_NY",
+            train=split_data_vals.train_data,
+            val=split_data_vals.val_data,
+        )
+    )
 
 
 # %%

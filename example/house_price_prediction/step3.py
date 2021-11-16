@@ -217,37 +217,17 @@ def predict(
 # %%
 # Defining the Workflow
 # =====================
-#
-# Include the following three steps in the workflow:
-#
-# #. Generate and split the data (Step 4)
-# #. Fit the XGBoost model (Step 5)
-# #. Generate predictions (Step 6)
-@workflow
-def house_price_predictor_trainer(
-    seed: int = 7, number_of_houses: int = NUM_HOUSES_PER_LOCATION
-) -> typing.List[float]:
-
-    # Generate and split the data
-    split_data_vals = generate_and_split_data(
-        number_of_houses=number_of_houses, seed=seed
-    )
-
-    # Fit the XGBoost model
-    model = fit(
-        loc="NewYork_NY", train=split_data_vals.train_data, val=split_data_vals.val_data
-    )
-
-    # Generate predictions
-    predictions = predict(model_ser=model, test=split_data_vals.test_data)
-
-    return predictions
+# TODO: Let's now put it all together. Write a function that takes in seed and number_of_houses and returns a list of predictions.
+# The body of the function should do the following:
+# #. Generate and split the data
+# #. Fit the XGBoost model
+# #. Generate predictions
 
 
 # %%
 # Trigger the workflow locally by calling the workflow function.
 if __name__ == "__main__":
-    print(house_price_predictor_trainer())
+    print("Call the function when ready!")
 
 
 # %%
