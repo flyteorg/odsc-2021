@@ -70,6 +70,4 @@ def xgboost_sample(
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
     model, accuracy, eval_result = xgboost_sample()
-    print(
-        f"Running xgboost_sample(), accuracy of the XGBoost model is {accuracy:.2f}%"
-    )
+    print(f"Running xgboost_sample(), accuracy of the XGBoost model is {accuracy:.2f}%")
