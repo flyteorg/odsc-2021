@@ -90,7 +90,7 @@ def load_flytefile(dataset: FlyteFile, label_column: int) -> xgboost.DMatrix:
         return xgboost.DMatrix(
             filepath
             + "?format=csv&label_column="
-            + str(self._config.label_column)
+            + str(label_column)
         )
     # Load libSVM
     return xgboost.DMatrix(filepath)
@@ -186,7 +186,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         return str(fname), evals_result
 
     # Test method
-    def test(self, booster_model: str, dtest: xgboost.DMatrix, **kwargs) -> List[float]:
+    def test(self, booster_model: str, dtest: xgboost.DMatrix) -> List[float]:
         booster_model = joblib.load(booster_model)
         y_pred = booster_model.predict(dtest).tolist()
         return y_pred
@@ -220,7 +220,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
             if self._validate:
                 dvalid = load_flyteschema(valid, params.label_column)
         else:
-            raise ValueError(f"Invalid type for {each_key} input")
+            raise ValueError(f"Invalid type for input")
 
         # STEP 2
         model, evals_result = self.train(dtrain=dtrain, dvalid=dvalid, params=params)

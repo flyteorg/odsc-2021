@@ -43,7 +43,6 @@ class HyperParameters(object):
         gamma: Minimum loss reduction required to make a further partition on a leaf node of the tree.
         max_depth: Maximum depth of a tree.
         subsample: Subsample ratio of the training instance.
-        verbosity: The verbosity level.
         booster: Specifies the booster type to use.
         tree_method: Specifies the tree construction algorithm.
         min_child_weight: Minimum sum of instance weight(hessian) needed in a child.
@@ -51,7 +50,6 @@ class HyperParameters(object):
     NOTE: There are a lot more hyperparameters available. We are using only a couple of them for demo purposes.
     """
 
-    verbosity: int = 2
     objective: str = "reg:squarederror"
     eta: float = 0.3
     gamma: float = 0.0
@@ -64,7 +62,7 @@ class HyperParameters(object):
 
 @dataclass_json
 @dataclass
-class XGBoostParameters():
+class XGBoostParameters:
     """
     XGBoost Parameter = Model Parameters + Hyperparameters
 
@@ -81,16 +79,14 @@ class XGBoostParameters():
 
 def load_flytefile(dataset: FlyteFile, label_column: int) -> xgboost.DMatrix:
     """
-    Method to load a FlyteFile as a xgboost.DMatrix
+    Function to load a FlyteFile as a xgboost.DMatrix
     """
     filepath = dataset.download()
 
     # Load CSV
     if dataset.extension() == "csv":
         return xgboost.DMatrix(
-            filepath
-            + "?format=csv&label_column="
-            + str(self._config.label_column)
+            filepath + "?format=csv&label_column=" + str(label_column)
         )
     # Load libSVM
     return xgboost.DMatrix(filepath)
@@ -98,7 +94,7 @@ def load_flytefile(dataset: FlyteFile, label_column: int) -> xgboost.DMatrix:
 
 def load_flyteschema(dataset: FlyteSchema, label_column: int) -> xgboost.DMatrix:
     """
-    Methods to load a FlyteSchema as an xgboost.DMatrix
+    Function to load a FlyteSchema as an xgboost.DMatrix
     """
     # Load as a pandas DataFrame
     df = dataset.open().all()
@@ -119,22 +115,24 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
     _OUTPUT_EVAL_RESULT = "evaluation_result"
 
     def __init__(
-            self,
-            name: str,
-            dataset_type: typing.Union[typing.Type[FlyteFile], typing.Type[FlyteSchema]] = typing.Type[FlyteFile],
-            validate: bool = False,
-            config: Optional[XGBoostParameters] = None,
-            **kwargs,
+        self,
+        name: str,
+        dataset_type: typing.Union[
+            typing.Type[FlyteFile], typing.Type[FlyteSchema]
+        ] = typing.Type[FlyteFile],
+        validate: bool = False,
+        config: Optional[XGBoostParameters] = None,
+        **kwargs,
     ):
         """
         A task that runs an XGBoost model.
-        This task takes 3 implicit inputs - train, test and validation. The type for these inputs depends on
-        dataset_type
-        This task also produces 3 outputs. the model, predictions for the test dataset and evaluation result.
+        This task takes 3 implicit inputs - train, test, and validation. The type for these inputs depends on
+        dataset_type.
+        This task produces 3 outputs - the model, predictions for the test dataset, and evaluation result.
 
         Args:
             name: Name of the task.
-            dataset_type: Type of the dataset. supported types are FlyteFile[csv, libsvm], FlyteSchema
+            dataset_type: Type of the dataset, supported types are FlyteFile[csv, libsvm], FlyteSchema
             validate: Indicate if a validation dataset will be provided
             config: Configuration for the task.
         Returns:
@@ -143,7 +141,6 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
             evaluation_result: The evaluation result for the validation dataset.
         """
         self._config = config
-
         self._dataset_type = dataset_type
 
         # NOTE: how we are defining implicit inputs for this model
@@ -173,20 +170,33 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         )
 
     # Train method
-    def train(self, dtrain: xgboost.DMatrix, dvalid: xgboost.DMatrix, params: XGBoostParameters) -> Tuple[str, Dict[str, Dict[str, List[float]]]]:
+    def train(
+        self,
+        dtrain: xgboost.DMatrix,
+        dvalid: xgboost.DMatrix,
+        params: XGBoostParameters,
+    ) -> Tuple[str, Dict[str, Dict[str, List[float]]]]:
         """
         This implements a default XGboost training method
         """
         evals_result = {}
-        # if validation data is provided, then populate evals and evals_result
-        validation = None
+        validation = []
+
         if dvalid:
             validation = [(dvalid, "validation")]
 
         booster_model = xgboost.train(
-            params=asdict(params.hyper_parameters if params.hyper_parameters else HyperParameters()),
+            params=asdict(
+                params.hyper_parameters
+                if params.hyper_parameters
+                else HyperParameters()
+            ),
             dtrain=dtrain,
-            **asdict(params.model_parameters if params.model_parameters else ModelParameters()),
+            **asdict(
+                params.model_parameters
+                if params.model_parameters
+                else ModelParameters()
+            ),
             evals=validation,
             evals_result=evals_result,
         )
@@ -195,9 +205,9 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         return str(fname), evals_result
 
     # Test method
-    def test(self, booster_model: str, dtest: xgboost.DMatrix, **kwargs) -> List[float]:
+    def test(self, booster_model: str, dtest: xgboost.DMatrix) -> List[float]:
         """
-        Using the joblib model, we load it and perform predictions.
+        Using joblib, we load the model and generate predictions.
         """
         booster_model = joblib.load(booster_model)
         y_pred = booster_model.predict(dtest).tolist()
@@ -205,7 +215,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
 
     def execute(self, **kwargs) -> Any:
         """
-        This is the entrypoint for your plugin. Checkout the base API. There are numerous other methods available.
+        This is the entrypoint for your plugin. Check out the base API. There are numerous other methods available.
         For example: pre_execute and post_execute.
         """
         params: XGBoostParameters = kwargs[self._PARAMS_ARG]
@@ -226,11 +236,11 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
 
         # Step 1: use the helper methods - load_flytefile and load_flyteschema to get dtrain, dtest and dvalid
         # dtrain -> is the training dataset in the format xgboost.DMatrix. We can load a FlyteFile using load Flytefile
-        # and we can load a FlyteSchema using load_flyteschema
+        # and we can load a FlyteSchema using load_flyteschema.
 
-        # Step 2: Use the helper method train to train the xgboost model. check the training code too
+        # Step 2: Use the helper method train to train the xgboost model. check the training code too.
 
-        # Step 3: Use the test method to test the model and compute the predictions
+        # Step 3: Use the test method to test the model and compute the predictions.
 
         #######################
 
