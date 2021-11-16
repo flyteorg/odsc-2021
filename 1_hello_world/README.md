@@ -1,11 +1,18 @@
 # Hello World Example
 
 ## Cheat sheet
+#. Run Locally:
+
+   ```bash
+   python 1_hello_world/step1.py
+   ```
+
 #. Start sandbox:
    
    ```bash
    flytectl sandbox start --source=./
    ```
+   
 #. Build docker image:
    
    ```bash
