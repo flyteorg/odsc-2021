@@ -27,7 +27,7 @@ class ModelParameters(object):
 
     num_boost_round: int = 10
     early_stopping_rounds: Optional[int] = None
-    verbose_eval: Optional[Union[bool, int]] = True
+    verbose_eval: Union[bool, int] = True
 
 
 @dataclass_json
@@ -63,6 +63,10 @@ class HyperParameters(object):
 
 class Updateable(object):
     def update(self, new):
+        """
+        Activate the `update()` method for a data class object.
+        Useful to update the hyperparameters of the XGBoost model at run-time.
+        """
         for key, value in new.items():
             if hasattr(self, key):
                 setattr(self, key, value)
@@ -93,7 +97,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         self,
         name: str,
         inputs: Dict[str, Type],
-        config: Optional[XGBoostParameters] = None,
+        config: XGBoostParameters = XGBoostParameters(),
         **kwargs,
     ):
         """
@@ -134,11 +138,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
             booster_model = xgboost.train(
                 params=asdict(self._config.hyper_parameters),
                 dtrain=dtrain,
-                **asdict(
-                    self._config.model_parameters
-                    if self._config.model_parameters
-                    else ModelParameters()
-                ),
+                **asdict(self._config.model_parameters),
                 evals=[(dvalid, "validation")],
                 evals_result=evals_result,
             )
@@ -146,11 +146,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
             booster_model = xgboost.train(
                 params=asdict(self._config.hyper_parameters),
                 dtrain=dtrain,
-                **asdict(
-                    self._config.model_parameters
-                    if self._config.model_parameters
-                    else ModelParameters()
-                ),
+                **asdict(self._config.model_parameters),
             )
         fname = Path(flytekit.current_context().working_directory) / "model.joblib.dat"
         joblib.dump(booster_model, fname)
@@ -172,6 +168,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         for key, type in get_type_hints(XGBoostParameters).items():
             if key in kwargs:
                 if issubclass(self.python_interface.inputs[key], type):
+                    # calling `Updateable.update()` to update the hyperparameters
                     self._config.update({key: kwargs[key]})
                 else:
                     raise TypeError(f"{key} has to be of the type {type}")
