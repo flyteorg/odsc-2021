@@ -1,5 +1,7 @@
 # Hello World Example
 
+Based on [getting started docs](https://docs.flyte.org/en/latest/getting_started.html).
+
 ## Cheat sheet
 #. Run Locally:
 
