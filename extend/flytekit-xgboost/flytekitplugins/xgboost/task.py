@@ -43,6 +43,7 @@ class HyperParameters(object):
         gamma: Minimum loss reduction required to make a further partition on a leaf node of the tree.
         max_depth: Maximum depth of a tree.
         subsample: Subsample ratio of the training instance.
+        verbosity: The verbosity level.
         booster: Specifies the booster type to use.
         tree_method: Specifies the tree construction algorithm.
         min_child_weight: Minimum sum of instance weight(hessian) needed in a child.
@@ -50,6 +51,7 @@ class HyperParameters(object):
     NOTE: There are a lot more hyperparameters available. We are using only a couple of them for demo purposes.
     """
 
+    verbosity: int = 2
     objective: str = "reg:squarederror"
     eta: float = 0.3
     gamma: float = 0.0
@@ -62,7 +64,7 @@ class HyperParameters(object):
 
 @dataclass_json
 @dataclass
-class XGBoostParameters:
+class XGBoostParameters():
     """
     XGBoost Parameter = Model Parameters + Hyperparameters
 
