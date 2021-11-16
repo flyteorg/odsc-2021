@@ -81,6 +81,9 @@ class XGBoostParameters():
 
 
 def load_flytefile(dataset: FlyteFile, label_column: int) -> xgboost.DMatrix:
+    """
+    Method to load a FlyteFile as a xgboost.DMatrix
+    """
     filepath = dataset.download()
 
     # Load CSV
@@ -95,6 +98,9 @@ def load_flytefile(dataset: FlyteFile, label_column: int) -> xgboost.DMatrix:
 
 
 def load_flyteschema(dataset: FlyteSchema, label_column: int) -> xgboost.DMatrix:
+    """
+    Methods to load a FlyteSchema as an xgboost.DMatrix
+    """
     # Load as a pandas DataFrame
     df = dataset.open().all()
     target = df[df.columns[label_column]]
@@ -116,8 +122,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
     def __init__(
             self,
             name: str,
-            dataset_type: typing.Union[typing.Type[FlyteFile], typing.Type[FlyteSchema], typing.Type[pd.DataFrame]] =
-            typing.Type[FlyteFile],
+            dataset_type: typing.Union[typing.Type[FlyteFile], typing.Type[FlyteSchema]] = typing.Type[FlyteFile],
             validate: bool = False,
             config: Optional[XGBoostParameters] = None,
             **kwargs,
@@ -127,7 +132,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
 
         Args:
             name: Name of the task.
-            dataset_type: Type of the dataset. supported types are FlyteFile[csv, libsvm], pd.DataFrame, FlyteSchema
+            dataset_type: Type of the dataset. supported types are FlyteFile[csv, libsvm], FlyteSchema
             validate: Indicate if a validation dataset will be provided
             config: Configuration for the task.
         Returns:
@@ -202,7 +207,7 @@ class XGBoostTrainerTask(PythonInstanceTask[XGBoostParameters]):
         if not params.hyper_parameters:
             params.hyper_parameters = self._config.hyper_parameters
 
-        print(f"Final parameters = {params}")
+        print(f"Finalized parameters = {params}")
 
         dvalid = None
         if issubclass(self._dataset_type, FlyteFile):

@@ -45,7 +45,7 @@ wf_output = NamedTuple(
 
 
 @workflow
-def example_workflow(
+def xgboost_sample(
     train: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.train",
     test: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.test",
     validation: FlyteFile = "https://raw.githubusercontent.com/dmlc/xgboost/master/demo/data/agaricus.txt.test",
@@ -69,8 +69,7 @@ def example_workflow(
 
 if __name__ == "__main__":
     print(f"Running {__file__} main...")
-    model, accuracy, eval_result = example_workflow()
-    print(eval_result)
+    model, accuracy, eval_result = xgboost_sample()
     print(
-        f"Running full_pipeline(), accuracy of the XGBoost model is {accuracy:.2f}%"
+        f"Running xgboost_sample(), accuracy of the XGBoost model is {accuracy:.2f}%"
     )
