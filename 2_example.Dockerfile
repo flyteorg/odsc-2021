@@ -26,13 +26,13 @@ RUN python3.8 -m venv ${VENV}
 RUN ${VENV}/bin/pip install wheel
 
 # Install Python dependencies
-COPY house_price_prediction/requirements.txt /root
+COPY 2_example/house_price_prediction/requirements.txt /root
 RUN ${VENV}/bin/pip install -r /root/requirements.txt
 
-COPY house_price_prediction/sandbox.config /root
+COPY 2_example/house_price_prediction/sandbox.config /root
 
 # Copy the actual code
-COPY house_price_prediction/ /root/house_price_prediction/
+COPY 2_example/house_price_prediction/ /root/house_price_prediction/
 
 # Copy over the helper script that the SDK relies on
 RUN cp ${VENV}/bin/flytekit_venv /usr/local/bin/
